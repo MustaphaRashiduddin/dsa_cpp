@@ -3,3 +3,5 @@ a.out
 main
 tags
 log.txt
+prog.DSYM/
+main.DSYM/
