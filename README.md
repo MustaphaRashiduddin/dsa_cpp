@@ -1,1 +1,1 @@
-Data structures and algorithms in C++
+Data structures and algorithms in C++11
