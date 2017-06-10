@@ -3,11 +3,8 @@
 #include "../utilities/player.hpp"
 #include "../utilities/split.hpp"
 
-#include <memory>
-
 using std::cout;
 using std::endl;
-
 
 int main(int argc, char *argv[])
 {
