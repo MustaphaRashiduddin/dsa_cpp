@@ -1,7 +1,9 @@
 #include <iostream>
 #include "list.hpp"
-#include "../player.hpp"
-#include "split.hpp"
+#include "../utilities/player.hpp"
+#include "../utilities/split.hpp"
+
+#include <memory>
 
 using std::cout;
 using std::endl;

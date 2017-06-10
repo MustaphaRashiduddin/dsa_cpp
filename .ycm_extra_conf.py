@@ -5,7 +5,7 @@ flags = [
 
 '-Wall',
 #'-Wextra',
-'-Wc++98-compat',
+#  '-Wc++98-compat',
 '-Wno-long-long',
 '-Wno-variadic-macros',
 '-fexceptions',
@@ -27,9 +27,9 @@ flags = [
 
 # For a C project, you would set this to something like 'c99' instead of
 
-# 'c++11'.
+#  'c++11'.
 
-# '-std=c++11',
+'-std=c++11',
 #  '-std=c++',
 
 #'-std=c99',

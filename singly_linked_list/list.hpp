@@ -7,57 +7,45 @@
 //TODO overload assignment operator
 
 template <class T> class list {
-        private:
-                node<T> *head;
-                void push(node<T> *cur, T val);
-                void kill(node<T> *cur);
-                static std::ostream& print(std::ostream& out, node<T> *n);
+        public:
+                std::unique_ptr<node<T>> head;
+                std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T val);
+                static std::ostream& print(std::ostream& out, std::unique_ptr<node<T>> cur);
 
         public:
-                list() : head(0) { }
+                list() : head{nullptr} { }
                 void push(T val);
-                friend std::ostream& operator<<(std::ostream& out, const list& l) { return print(out, l.head); }
-                ~list();
+                friend std::ostream& operator<<(std::ostream& out, list& l) { return print(out, std::move(l.head)); }
+                ~list() { }
 };
 
 template <class T> void list<T>::push(T val)
 {
-        if (head == 0)
-                head = new node<T>(val);
+        if (head == nullptr)
+                head = std::unique_ptr<node<T>>{new node<T>{val}};
         else
-                push(head, val);
+                head = push(std::move(head), val);
 }
 
-template <class T> void list<T>::push(node<T>* cur, T val)
+template <class T> std::unique_ptr<node<T>> list<T>::push(std::unique_ptr<node<T>> cur, T val)
 {
-        if (cur->nxt != 0)
-                push(cur->nxt, val);
-        else 
-                cur->nxt = new node<T>(val);
+        if (cur->nxt != nullptr) {
+                cur->nxt = push(std::move(cur->nxt), val);
+                return cur;
+        } else  {
+                cur->nxt = std::unique_ptr<node<T>>{new node<T>{val}};
+                return cur;
+        }
 }
 
-template <class T> std::ostream& list<T>::print(std::ostream& out, node<T> *n)
+template <class T> std::ostream& list<T>::print(std::ostream& out, const std::unique_ptr<node<T>> cur)
 {
-        out << *n;
-        if (n->nxt != 0) {
+        out << *cur;
+        if (cur->nxt != nullptr) {
                 out << " ";
-                print(out, n->nxt);
+                print(out, std::move(cur->nxt));
         }
         return out;
-}
-
-template <class T> list<T>::~list()
-{
-        if (head != 0) {
-                kill(head);
-        }
-}
-
-template <class T> void list<T>::kill(node<T> *cur)
-{
-        if (cur != 0) 
-                kill(cur->nxt);
-        delete cur;
 }
 
 #endif

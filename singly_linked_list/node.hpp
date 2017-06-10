@@ -2,20 +2,21 @@
 #define _NODE_H
 
 #include <ostream>
+#include <memory>
 
 template <class T> struct node {
-        T *dat;
-        node *nxt;
-        node(T dat) : dat(new T(dat)), nxt(0) { }
+        std::unique_ptr<T> dat;
+        std::unique_ptr<node> nxt;
+        node(T dat) : dat{new T(dat)}, nxt{nullptr} { }
         node(const node& obj);
         void operator=(const node& obj);
-        friend std::ostream& operator<< (std::ostream& out, const node& p) { return out << *p.dat; }
-        ~node() { delete dat; }
+        friend std::ostream& operator<<(std::ostream& out, const node& p) { return out << *p.dat; }
+        ~node() { }
 };
 
 template <class T> node<T>::node(const node& obj) 
 { 
-        dat = new T(*obj.dat);
+        dat = std::unique_ptr<T>{new T{*obj.dat}};
         nxt = obj.nxt; 
 }
 
