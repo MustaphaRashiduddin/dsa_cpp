@@ -4,24 +4,26 @@
 #include "node.hpp"
 
 template <class T> class list {
-        public:
+        private:
                 std::unique_ptr<node<T>> head;
                 std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T val);
 
                 // methods
                 std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *rhs_node); 
                 static std::ostream& print(std::ostream& out, const node<T> *cur);
+
+        public:
+                bool exist() { return head != nullptr; }
+                list() : head{nullptr} { }
+                void push(T val);
+                friend std::ostream& operator<<(std::ostream& out, list& l) { return print(out, l.head.get()); }
+
                 // rule of 5
                 list(list& obj); // copy constructor
                 void operator=(const list& obj); // copy assignment operator
                 list(list&& obj); // move constructor
-                void operator=(list&& obj); // TODO move assignment operator
+                void operator=(list&& obj); // move assignment operator
                 ~list() { }
-
-        public:
-                list() : head{nullptr} { }
-                void push(T val);
-                friend std::ostream& operator<<(std::ostream& out, list& l) { return print(out, l.head.get()); }
 };
 
 // copy constructor
@@ -45,7 +47,7 @@ template <class T> list<T>::list(list&& obj) : head{nullptr}
         std::swap(head, obj.head);
 }
 
-// TODO move assignment operator
+// move assignment operator
 template <class T> void list<T>::operator=(list&& obj)
 {
         head = nullptr;

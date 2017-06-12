@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
         l2.push(player(7, "smash", 10));
         l1 = std::move(l2);
         cout << "l1 after moving l2 into it: " << l1 << split;
-        if (!l2.head) cout << "state of l2's head: null" << endl;
+        if (!l2.exist()) cout << "state of l2's head: null" << endl;
 
         return 0;
 }
