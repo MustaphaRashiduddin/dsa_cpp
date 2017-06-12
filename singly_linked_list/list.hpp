@@ -3,21 +3,50 @@
 
 #include "node.hpp"
 
-//TODO copy constructor
-//TODO overload assignment operator
-
 template <class T> class list {
         public:
                 std::unique_ptr<node<T>> head;
                 std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T val);
-                static std::ostream& print(std::ostream& out, std::unique_ptr<node<T>> cur);
+
+                // methods
+                std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *rhs_node); 
+                static std::ostream& print(std::ostream& out, const node<T> *cur);
+                // rule of 5
+                list(list& obj); // copy constructor
+                void operator=(const list& obj); // copy assignment operator
+                list(list&& obj); // TODO move constructor
+                // TODO move assignment operator
+                ~list() { }
 
         public:
                 list() : head{nullptr} { }
                 void push(T val);
-                friend std::ostream& operator<<(std::ostream& out, list& l) { return print(out, std::move(l.head)); }
-                ~list() { }
+                friend std::ostream& operator<<(std::ostream& out, list& l) { return print(out, l.head.get()); }
 };
+
+// copy constructor
+template <class T> list<T>::list(list& obj)
+{
+        if (obj.head)
+                head = deep_copy(std::move(head), obj.head.get());
+}
+
+// copy assignment operator
+template <class T> void list<T>::operator=(const list& obj)
+{
+        head = nullptr;
+        if (obj.head)
+                head = deep_copy(std::move(head), obj.head.get());
+}
+
+template <class T> std::unique_ptr<node<T>> list<T>::deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *rhs_node) 
+{
+        lhs_node = std::unique_ptr<node<T>>{new node<T>{*rhs_node}};
+        if (rhs_node->nxt)
+                lhs_node->nxt = deep_copy(std::move(lhs_node->nxt), rhs_node->nxt.get());
+        return lhs_node;
+}
+
 
 template <class T> void list<T>::push(T val)
 {
@@ -38,12 +67,12 @@ template <class T> std::unique_ptr<node<T>> list<T>::push(std::unique_ptr<node<T
         }
 }
 
-template <class T> std::ostream& list<T>::print(std::ostream& out, const std::unique_ptr<node<T>> cur)
+template <class T> std::ostream& list<T>::print(std::ostream& out, const node<T> *cur)
 {
         out << *cur;
         if (cur->nxt != nullptr) {
                 out << " ";
-                print(out, std::move(cur->nxt));
+                print(out, cur->nxt.get());
         }
         return out;
 }
