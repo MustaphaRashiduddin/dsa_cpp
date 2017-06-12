@@ -8,22 +8,27 @@ template <class T> class list {
                 std::unique_ptr<node<T>> head;
                 std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T val);
 
-                // methods
-                std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *rhs_node); 
-                static std::ostream& print(std::ostream& out, const node<T> *cur);
+                // private methods
+                std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node); 
+                static std::ostream& print(std::ostream& out, const node<T> *const cur);
+                std::unique_ptr<T> pop(node<T> *cur);
+                std::unique_ptr<T> pop(std::unique_ptr<node<T>> cur);
 
         public:
-                bool exist() { return head != nullptr; }
+                bool exists() { return head != nullptr; }
                 list() : head{nullptr} { }
                 void push(T val);
-                friend std::ostream& operator<<(std::ostream& out, list& l) { return print(out, l.head.get()); }
+                std::unique_ptr<T> pop() { return pop(head.get()); }
 
                 // rule of 5
                 list(list& obj); // copy constructor
                 void operator=(const list& obj); // copy assignment operator
-                list(list&& obj); // move constructor
+                list(list&& obj) : head{nullptr} { std::swap(head, obj.head); } // move constructor
                 void operator=(list&& obj); // move assignment operator
                 ~list() { }
+
+                // overloaded operators
+                friend std::ostream& operator<<(std::ostream& out, list& l) { return print(out, l.head.get()); }
 };
 
 // copy constructor
@@ -41,12 +46,6 @@ template <class T> void list<T>::operator=(const list& obj)
                 head = deep_copy(std::move(head), obj.head.get());
 }
 
-// move constructor
-template <class T> list<T>::list(list&& obj) : head{nullptr}
-{
-        std::swap(head, obj.head);
-}
-
 // move assignment operator
 template <class T> void list<T>::operator=(list&& obj)
 {
@@ -55,14 +54,13 @@ template <class T> void list<T>::operator=(list&& obj)
         obj.head = nullptr;
 }
 
-template <class T> std::unique_ptr<node<T>> list<T>::deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *rhs_node) 
+template <class T> std::unique_ptr<node<T>> list<T>::deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node) 
 {
         lhs_node = std::unique_ptr<node<T>>{new node<T>{*rhs_node}};
         if (rhs_node->nxt)
                 lhs_node->nxt = deep_copy(std::move(lhs_node->nxt), rhs_node->nxt.get());
         return lhs_node;
 }
-
 
 template <class T> void list<T>::push(T val)
 {
@@ -77,13 +75,13 @@ template <class T> std::unique_ptr<node<T>> list<T>::push(std::unique_ptr<node<T
         if (cur->nxt != nullptr) {
                 cur->nxt = push(std::move(cur->nxt), val);
                 return cur;
-        } else  {
+        } else {
                 cur->nxt = std::unique_ptr<node<T>>{new node<T>{val}};
                 return cur;
         }
 }
 
-template <class T> std::ostream& list<T>::print(std::ostream& out, const node<T> *cur)
+template <class T> std::ostream& list<T>::print(std::ostream& out, const node<T> *const cur)
 {
         out << *cur;
         if (cur->nxt != nullptr) {
@@ -91,6 +89,23 @@ template <class T> std::ostream& list<T>::print(std::ostream& out, const node<T>
                 print(out, cur->nxt.get());
         }
         return out;
+}
+
+template <class T> std::unique_ptr<T> list<T>::pop(node<T> *cur)
+{
+        if (cur->nxt) {
+                std::unique_ptr<T> dat = pop(cur->nxt.get());
+                if (dat) return dat;
+                return pop(std::move(cur->nxt));
+        } 
+        return nullptr;
+}
+
+template <class T> std::unique_ptr<T> list<T>::pop(std::unique_ptr<node<T>> cur)
+{
+        std::unique_ptr<T> temp = std::move(cur->dat);
+        cur = nullptr;
+        return temp;
 }
 
 #endif
