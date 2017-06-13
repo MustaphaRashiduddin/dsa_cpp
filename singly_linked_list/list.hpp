@@ -5,20 +5,24 @@
 
 template <class T> class list {
         private:
+                // private data members
                 std::unique_ptr<node<T>> head;
-                std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T val);
 
                 // private methods
+                std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T val);
                 std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node); 
                 static std::ostream& print(std::ostream& out, const node<T> *const cur);
                 std::unique_ptr<T> pop(node<T> *cur);
                 std::unique_ptr<T> pop(std::unique_ptr<node<T>> cur);
+                std::unique_ptr<node<T>> insert(std::unique_ptr<node<T>> cur, int id, T dat);
 
         public:
+                // public methods
                 bool exists() { return head != nullptr; }
                 list() : head{nullptr} { }
                 void push(T val);
                 std::unique_ptr<T> pop() { return pop(head.get()); }
+                void insert(int id, T dat) { head = insert(std::move(head), id, dat); };
 
                 // rule of 5
                 list(list& obj); // copy constructor
@@ -106,6 +110,30 @@ template <class T> std::unique_ptr<T> list<T>::pop(std::unique_ptr<node<T>> cur)
         std::unique_ptr<T> temp = std::move(cur->dat);
         cur = nullptr;
         return temp;
+}
+
+using std::cout;
+using std::endl;
+
+template <class T> std::unique_ptr<node<T>> list<T>::insert(std::unique_ptr<node<T>> cur, int id, T dat)
+{
+        while (cur->nxt && cur->dat->getid() != id) {
+                cur->nxt = insert(std::move(cur->nxt), id, dat);
+                return cur;
+        }
+
+        std::unique_ptr<node<T>> mNode = nullptr;
+        if (cur->dat->getid() == id) {
+                std::unique_ptr<T> mDat{new T{dat}};
+                mNode = std::unique_ptr<node<T>>{new node<T>{*mDat}};
+        } else {
+                return nullptr;
+        }
+
+        if (cur->nxt) 
+                mNode->nxt = std::move(cur->nxt);
+        cur->nxt = std::move(mNode);
+        return cur;
 }
 
 #endif
