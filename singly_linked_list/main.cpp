@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
         // cout << *l2.pop() << split;
         cout << l2 << split;
         l2.insert(2, player(6, "som", 13));
+        cout << l2 << split;
+        l2.insert(player(11, "hah", 33));
         cout << l2 << endl;
 
         return 0;

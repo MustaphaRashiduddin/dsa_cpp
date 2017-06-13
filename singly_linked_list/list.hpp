@@ -23,6 +23,7 @@ template <class T> class list {
                 void push(T val);
                 std::unique_ptr<T> pop() { return pop(head.get()); }
                 void insert(int id, T dat) { head = insert(std::move(head), id, dat); };
+                void insert(T dat); 
 
                 // rule of 5
                 list(list& obj); // copy constructor
@@ -112,9 +113,6 @@ template <class T> std::unique_ptr<T> list<T>::pop(std::unique_ptr<node<T>> cur)
         return temp;
 }
 
-using std::cout;
-using std::endl;
-
 template <class T> std::unique_ptr<node<T>> list<T>::insert(std::unique_ptr<node<T>> cur, int id, T dat)
 {
         while (cur->nxt && cur->dat->getid() != id) {
@@ -134,6 +132,15 @@ template <class T> std::unique_ptr<node<T>> list<T>::insert(std::unique_ptr<node
                 mNode->nxt = std::move(cur->nxt);
         cur->nxt = std::move(mNode);
         return cur;
+}
+
+template <class T> void list<T>::insert(T dat)
+{
+        std::unique_ptr<node<T>> temp = std::move(head);
+        std::unique_ptr<T> mDat{new T{dat}};
+        std::unique_ptr<node<T>> mNode{new node<T>{*mDat}};
+        mNode->nxt = std::move(temp);
+        head = std::move(mNode);
 }
 
 #endif
