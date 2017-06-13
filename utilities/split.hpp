@@ -4,9 +4,7 @@
 #include <iostream>
 
 struct split {
-        friend std::ostream& operator<< (std::ostream& out, const split& s) {
-                return out << std::endl << "---------------" << std::endl; 
-        }
+        friend std::ostream& operator<< (std::ostream& out, const split& s) { return out << std::endl << "---------------" << std::endl; }
 };
 split split;
 
