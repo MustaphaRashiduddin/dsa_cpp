@@ -127,7 +127,7 @@ template <class T> std::unique_ptr<node<T>> list<T>::insert(std::unique_ptr<node
                 std::unique_ptr<T> mDat{new T{dat}};
                 mNode = std::unique_ptr<node<T>>{new node<T>{*mDat}};
         } else {
-                return nullptr;
+                return cur;
         }
 
         if (cur->nxt) 
