@@ -3,7 +3,6 @@
 
 #include <ostream>
 #include <memory>
-
 #include <iostream>
 
 template <class T> struct node {
