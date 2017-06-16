@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
         cout << l2 << split;
         l2.insert(player(11, "hah", 33));
         cout << l2 << split;
-        l2.head = insert(std::move(l2.head), 3, player(8, "lolz5", 11));
+        l2.head = list_::insert(std::move(l2.head), 3, player(8, "lolz5", 11));
         cout << l2 << split;
         l2.pop();
         cout << l2 << endl;

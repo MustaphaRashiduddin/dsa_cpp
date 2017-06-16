@@ -9,7 +9,6 @@ template <class T> struct node {
         node(T dat) : dat{new T(dat)}, nxt{nullptr} { }
         std::unique_ptr<T> dat;
         std::unique_ptr<node> nxt;
-        friend std::ostream& operator<<(std::ostream& out, const node& p) { return out << *p.dat; }
 
         // rule of 5
         node(const node& obj); // copy constructor
@@ -17,6 +16,9 @@ template <class T> struct node {
         node(node&& obj); // move constructor
         void operator=(node&& obj); // move assignment operator
         ~node() { }
+
+        // overloaded operators
+        friend std::ostream& operator<<(std::ostream& out, const node& p) { return out << *p.dat; }
 };
 
 // copy constructor

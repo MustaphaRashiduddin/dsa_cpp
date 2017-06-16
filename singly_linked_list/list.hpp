@@ -3,12 +3,14 @@
 
 #include "node.hpp"
 
-template <class T> std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T& val);
-template <class T> std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node); 
-template <class T> static std::ostream& print(std::ostream& out, const node<T> *const cur);
-template <class T> std::unique_ptr<T> pop(node<T> *cur);
-template <class T> std::unique_ptr<T> pop(std::unique_ptr<node<T>> cur);
-template <class T> std::unique_ptr<node<T>> insert(std::unique_ptr<node<T>> cur, int id, T dat);
+namespace list_ {
+        template <class T> std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T& val);
+        template <class T> std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node); 
+        template <class T> std::ostream& print(std::ostream& out, const node<T> *const cur);
+        template <class T> std::unique_ptr<T> pop(node<T> *cur);
+        template <class T> std::unique_ptr<T> pop(std::unique_ptr<node<T>> cur);
+        template <class T> std::unique_ptr<node<T>> insert(std::unique_ptr<node<T>> cur, int id, T dat);
+}
 
 template <class T> struct list {
         // data
@@ -17,8 +19,8 @@ template <class T> struct list {
         // methods
         list() : head{nullptr} { }
         void push(T&& val);
-        std::unique_ptr<T> pop() { return ::pop(head.get()); }
-        void insert(int id, T dat) { head = ::insert(std::move(head), id, dat); };
+        std::unique_ptr<T> pop() { return list_::pop(head.get()); }
+        void insert(int id, T dat) { head = list_::insert(std::move(head), id, dat); };
         void insert(T dat); 
 
         // rule of 5
@@ -29,7 +31,7 @@ template <class T> struct list {
         ~list() { }
 
         // overloaded operators
-        friend std::ostream& operator<<(std::ostream& out, list& l) { return print(out, l.head.get()); }
+        friend std::ostream& operator<<(std::ostream& out, list& l) { return list_::print(out, l.head.get()); }
 };
 
 // copy constructor
@@ -68,13 +70,13 @@ template <class T> void list<T>::push(T&& val)
         if (head == nullptr)
                 head = std::unique_ptr<node<T>>{new node<T>{val}};
         else
-                head = ::push(std::move(head), val);
+                head = list_::push(std::move(head), val);
 }
 
-template <class T> std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T& val)
+template <class T> std::unique_ptr<node<T>> list_::push(std::unique_ptr<node<T>> cur, T& val)
 {
         if (cur->nxt != nullptr) {
-                cur->nxt = push(std::move(cur->nxt), val);
+                cur->nxt = list_::push(std::move(cur->nxt), val);
                 return cur;
         } else {
                 cur->nxt = std::unique_ptr<node<T>>{new node<T>{val}};
@@ -82,37 +84,37 @@ template <class T> std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T
         }
 }
 
-template <class T> std::ostream& print(std::ostream& out, const node<T> *const cur)
+template <class T> std::ostream& list_::print(std::ostream& out, const node<T> *const cur)
 {
         out << *cur;
         if (cur->nxt != nullptr) {
                 out << " ";
-                print(out, cur->nxt.get());
+                list_::print(out, cur->nxt.get());
         }
         return out;
 }
 
-template <class T> std::unique_ptr<T> pop(node<T> *cur)
+template <class T> std::unique_ptr<T> list_::pop(node<T> *cur)
 {
         if (cur->nxt) {
-                std::unique_ptr<T> dat = pop(cur->nxt.get());
+                std::unique_ptr<T> dat = list_::pop(cur->nxt.get());
                 if (dat) return dat;
-                return pop(std::move(cur->nxt));
+                return list_::pop(std::move(cur->nxt));
         } 
         return nullptr;
 }
 
-template <class T> std::unique_ptr<T> pop(std::unique_ptr<node<T>> cur)
+template <class T> std::unique_ptr<T> list_::pop(std::unique_ptr<node<T>> cur)
 {
         std::unique_ptr<T> temp = std::move(cur->dat);
         cur = nullptr;
         return temp;
 }
 
-template <class T> std::unique_ptr<node<T>> insert(std::unique_ptr<node<T>> cur, int id, T dat)
+template <class T> std::unique_ptr<node<T>> list_::insert(std::unique_ptr<node<T>> cur, int id, T dat)
 {
         while (cur->nxt && cur->dat->getid() != id) {
-                cur->nxt = insert(std::move(cur->nxt), id, dat);
+                cur->nxt = list_::insert(std::move(cur->nxt), id, dat);
                 return cur;
         }
 
