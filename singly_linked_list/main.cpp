@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
         l1.push(player(2, "mahdi", 48));
         l1.push(player(5, "bob", 38));
         list<player> l2{move(l1)};
+        // list<player> l2{l1};
         cout << l2 << split;
         if(!l1.head) cout << "null" << split;
         // cout << *l2.pop() << split;
@@ -27,6 +28,8 @@ int main(int argc, char *argv[])
         l2.head = list_::insert(std::move(l2.head), 3, player(8, "lolz5", 11));
         cout << l2 << split;
         l2.pop();
+        cout << l2 << split;
+        cout << *l2.del(8) << split;
         cout << l2 << endl;
 
         return 0;

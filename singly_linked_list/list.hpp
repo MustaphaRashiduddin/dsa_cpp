@@ -10,10 +10,11 @@ namespace list_ {
         template <class T> std::unique_ptr<T> pop(node<T> *cur);
         template <class T> std::unique_ptr<T> pop(std::unique_ptr<node<T>> cur);
         template <class T> std::unique_ptr<node<T>> insert(std::unique_ptr<node<T>> cur, int id, T dat);
+        template <class T> std::unique_ptr<T> del(node<T> *cur, int id);
 }
 
 template <class T> struct list {
-        // data
+        // data members
         std::unique_ptr<node<T>> head;
 
         // methods
@@ -21,7 +22,8 @@ template <class T> struct list {
         void push(T&& val);
         std::unique_ptr<T> pop() { return list_::pop(head.get()); }
         void insert(int id, T dat) { head = list_::insert(std::move(head), id, dat); };
-        void insert(T dat); 
+        void insert(T dat); // insert at head 
+        std::unique_ptr<T> del(int id);
 
         // rule of 5
         list(list& obj); // copy constructor
@@ -139,6 +141,21 @@ template <class T> void list<T>::insert(T dat)
         std::unique_ptr<node<T>> mNode{new node<T>{*mDat}};
         mNode->nxt = std::move(temp);
         head = std::move(mNode);
+}
+
+
+template <class T> std::unique_ptr<T> list<T>::del(int id)
+{
+        return (list_::del(head.get(), id));
+}
+
+template <class T> std::unique_ptr<T> list_::del(node<T> *cur, int id)
+{
+        if (id != cur->nxt->nxt->dat->id)
+                return list_::del(cur->nxt.get(), id);
+        std::unique_ptr<T> dat = std::move(cur->nxt->nxt->dat);
+        cur->nxt->nxt = std::move(cur->nxt->nxt->nxt);
+        return dat;
 }
 
 #endif
