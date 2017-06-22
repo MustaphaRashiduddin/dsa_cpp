@@ -149,17 +149,6 @@ template <class T> std::unique_ptr<T> list<T>::del(int id)
         return (list_::del(head.get(), id));
 }
 
-/*
- * template <class T> std::unique_ptr<T> list_::del(node<T> *cur, int id)
- * {
- *         if (id != cur->nxt->nxt->dat->id)
- *                 return list_::del(cur->nxt.get(), id);
- *         std::unique_ptr<T> dat = std::move(cur->nxt->nxt->dat);
- *         cur->nxt->nxt = std::move(cur->nxt->nxt->nxt);
- *         return dat;
- * }
- */
-
 template <class T> std::unique_ptr<T> list_::del(node<T> *cur, int id)
 {
         if (id != cur->nxt->dat->id)
