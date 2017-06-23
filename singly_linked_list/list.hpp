@@ -20,7 +20,7 @@ template <class T> struct list {
         // methods
         list() : head{nullptr} { }
         void push(T&& val);
-        std::unique_ptr<T> pop() { return list_::pop(head.get()); }
+        std::unique_ptr<T> pop(); 
         void insert(int id, T dat) { head = list_::insert(std::move(head), id, dat); };
         void insert(T dat); // insert at head 
         std::unique_ptr<T> del(int id);
@@ -96,21 +96,23 @@ template <class T> std::ostream& list_::print(std::ostream& out, const node<T> *
         return out;
 }
 
-template <class T> std::unique_ptr<T> list_::pop(node<T> *cur)
+template <class T> std::unique_ptr<T> list<T>::pop()
 {
-        if (cur->nxt) {
-                std::unique_ptr<T> dat = list_::pop(cur->nxt.get());
-                if (dat) return dat;
-                return list_::pop(std::move(cur->nxt));
-        } 
-        return nullptr;
+        if (!head->nxt) {
+                std::unique_ptr<T> dat = std::move(head->dat);
+                head = nullptr;
+                return dat;
+        }
+        return list_::pop(head.get()); 
 }
 
-template <class T> std::unique_ptr<T> list_::pop(std::unique_ptr<node<T>> cur)
+template <class T> std::unique_ptr<T> list_::pop(node<T> *cur)
 {
-        std::unique_ptr<T> temp = std::move(cur->dat);
-        cur = nullptr;
-        return temp;
+        if (cur->nxt->nxt != nullptr)
+                return std::move(list_::pop(cur->nxt.get()));
+        std::unique_ptr<T> dat = std::move(cur->nxt->dat);
+        cur->nxt = nullptr;
+        return dat;
 }
 
 template <class T> std::unique_ptr<node<T>> list_::insert(std::unique_ptr<node<T>> cur, int id, T dat)
