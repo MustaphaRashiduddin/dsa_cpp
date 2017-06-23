@@ -143,10 +143,14 @@ template <class T> void list<T>::insert(T dat)
         head = std::move(mNode);
 }
 
-
 template <class T> std::unique_ptr<T> list<T>::del(int id)
 {
-        return (list_::del(head.get(), id));
+        if (head->dat->id == id) {
+                std::unique_ptr<T> dat = std::move(head->dat);
+                head = std::move(head->nxt);
+                return dat;
+        }
+        return list_::del(head.get(), id);
 }
 
 template <class T> std::unique_ptr<T> list_::del(node<T> *cur, int id)
