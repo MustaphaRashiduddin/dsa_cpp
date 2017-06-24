@@ -14,7 +14,12 @@ int main(int argc, char *argv[])
         l1.push(player(1, "saif", 11));
         l1.push(player(3, "ali", 33));
         l1.push(player(5, "bob", 38));
-        l1.head = list_::insert(std::move(l1.head), 3, player(8, "lolz5", 11));
+        if (l1.head) cout << *l1.del(3) << split;
         cout << l1 << split;
+        if (l1.head) cout << *l1.del(1) << split;
+        cout << l1 << split;
+        cout << *l1.del(5) << split;
+        if (!l1.head) cout << "null" << endl;
+
         return 0;
 }

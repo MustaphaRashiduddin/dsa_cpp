@@ -8,7 +8,6 @@ namespace list_ {
         template <class T> std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node); 
         template <class T> std::ostream& print(std::ostream& out, const node<T> *const cur);
         template <class T> std::unique_ptr<T> pop(node<T> *cur);
-        template <class T> std::unique_ptr<T> pop(std::unique_ptr<node<T>> cur);
         template <class T> std::unique_ptr<node<T>> insert(std::unique_ptr<node<T>> cur, int id, T dat);
         template <class T> std::unique_ptr<T> del(node<T> *cur, int id);
 }
