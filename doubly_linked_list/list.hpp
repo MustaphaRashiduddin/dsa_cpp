@@ -4,7 +4,6 @@
 #include "node.hpp"
 
 namespace list_ {
-        // template <class T> std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T& val, list<T>& l);
         template <class T> std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node); 
         template <class T> std::ostream& print(std::ostream& out, const node<T> *const cur);
         template <class T> std::unique_ptr<T> pop(node<T> *cur);
@@ -18,9 +17,8 @@ template <class T> struct list {
         node<T> *tail;
 
         // methods
-        list() : head{nullptr} { }
+        list() : head{nullptr}, tail{nullptr} { }
         void push(T&& val);
-        std::unique_ptr<node<T>> _push(std::unique_ptr<node<T>> cur, T& val);
         std::unique_ptr<T> pop(); 
         void insert(int id, T dat) { head = list_::insert(std::move(head), id, dat); };
         void insert(T dat); // insert at head 
@@ -70,27 +68,22 @@ template <class T> std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> l
 
 template <class T> void list<T>::push(T&& val)
 {
-        if (head == nullptr)
+        if (head == nullptr) {
                 head = std::unique_ptr<node<T>>{new node<T>{val}};
-        else
-                // head = list_::push(std::move(head), val);
-                head = _push(std::move(head), val);
-}
-
-template <class T> std::unique_ptr<node<T>> list<T>::_push(std::unique_ptr<node<T>> cur, T& val)
-{
-        if (cur->nxt != nullptr) {
-                // cur->nxt = list_::push(std::move(cur->nxt), val);
-                cur->nxt = _push(std::move(cur->nxt), val);
-                return cur;
         } else {
                 std::unique_ptr<node<T>> tmp = std::unique_ptr<node<T>>{new node<T>{val}};
-                // cur->nxt = std::unique_ptr<node<T>>{new node<T>{val}};
-                tmp->prv = cur.get();
-                cur->nxt = std::move(tmp);
-                tail = cur->nxt.get();
-                return cur;
+                if (!tail) {
+                        tmp->prv = head.get();
+                        head->nxt = std::move(tmp);
+                        tail = head->nxt.get();
+                } else {
+                        tail->nxt = std::move(tmp);
+                        node<T> *tmp2 = tail;
+                        tail = tail->nxt.get();
+                        tail->prv = tmp2;
+                }
         }
+
 }
 
 template <class T> std::ostream& list_::print(std::ostream& out, const node<T> *const cur)

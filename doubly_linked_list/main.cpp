@@ -15,15 +15,8 @@ int main(int argc, char *argv[])
         l1.push(player(3, "ali", 33));
         l1.push(player(5, "bob", 38));
         l1.push(player(8, "spam", 40));
-        /*
-         * if (l1.head) cout << *l1.del(3) << split;
-         * cout << l1 << split;
-         * if (l1.head) cout << *l1.del(1) << split;
-         * cout << l1 << split;
-         * cout << *l1.del(5) << split;
-         * if (!l1.head) cout << "null" << split;
-         */
-        cout << *l1.tail << endl;
+        l1.push(player(9, "jo", 10));
+        cout << *l1.tail->prv->prv->prv->prv << endl;
 
         return 0;
 }
