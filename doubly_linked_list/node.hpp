@@ -6,7 +6,7 @@
 #include <iostream>
 
 template <class T> struct node {
-        node(T dat) : dat{new T(dat)}, nxt{nullptr} { }
+        node(T dat) : dat{new T(dat)}, nxt{nullptr}, prv{nullptr} { }
         std::unique_ptr<T> dat;
         std::unique_ptr<node> nxt;
         node *prv;

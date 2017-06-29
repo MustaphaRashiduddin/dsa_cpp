@@ -16,7 +16,17 @@ int main(int argc, char *argv[])
         l1.push(player(5, "bob", 38));
         l1.push(player(8, "spam", 40));
         l1.push(player(9, "jo", 10));
-        cout << *l1.tail->prv->prv->prv->prv << endl;
+        cout << "prv bonanza: " << *l1.tail->prv->prv->prv->prv << split;
+        cout << l1 << split;
+        l1.pop();
+        cout << l1 << split;
+        l1.pop();
+        l1.pop();
+        cout << l1 << split;
+        cout << "a pop: " << *l1.pop() << split;
+        cout << l1 << split;
+        cout << "popped: " << *l1.pop() << split;
+        if (!l1.head) cout << "l1 is empty" << endl;
 
         return 0;
 }
