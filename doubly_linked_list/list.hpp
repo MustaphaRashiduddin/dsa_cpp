@@ -108,13 +108,13 @@ template <class T> std::unique_ptr<T> list<T>::pop()
 
 template <class T> std::unique_ptr<node<T>> list<T>::_insert(std::unique_ptr<node<T>> cur, int id, T dat)
 {
-        while (cur->nxt && cur->dat->getid() != id) {
+        while (cur->nxt && cur->dat->id != id) {
                 cur->nxt = _insert(std::move(cur->nxt), id, dat);
                 return cur;
         }
 
         std::unique_ptr<node<T>> mNode = nullptr;
-        if (cur->dat->getid() == id) {
+        if (cur->dat->id == id) {
                 std::unique_ptr<T> mDat{new T{dat}};
                 mNode = std::unique_ptr<node<T>>{new node<T>{*mDat}};
         } else {
