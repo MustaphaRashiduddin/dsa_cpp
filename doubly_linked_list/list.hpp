@@ -6,7 +6,6 @@
 namespace list_ {
         template <class T> std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node); 
         template <class T> std::ostream& print(std::ostream& out, const node<T> *const cur);
-        // template <class T> std::unique_ptr<node<T>> insert(std::unique_ptr<node<T>> cur, int id, T dat);
         template <class T> std::unique_ptr<T> del(node<T> *cur, int id);
 }
 
@@ -19,8 +18,8 @@ template <class T> struct list {
         list() : head{nullptr}, tail{nullptr} { }
         void push(T&& val);
         std::unique_ptr<T> pop(); 
-        void insert(int id, T dat) { head = insert(std::move(head), id, dat); };
-        std::unique_ptr<node<T>> insert(std::unique_ptr<node<T>> cur, int id, T dat);
+        void insert(int id, T dat) { head = _insert(std::move(head), id, dat); };
+        std::unique_ptr<node<T>> _insert(std::unique_ptr<node<T>> cur, int id, T dat);
         void insert(T dat); // insert at head 
         std::unique_ptr<T> del(int id);
 
@@ -107,10 +106,10 @@ template <class T> std::unique_ptr<T> list<T>::pop()
         return dat;
 }
 
-template <class T> std::unique_ptr<node<T>> list<T>::insert(std::unique_ptr<node<T>> cur, int id, T dat)
+template <class T> std::unique_ptr<node<T>> list<T>::_insert(std::unique_ptr<node<T>> cur, int id, T dat)
 {
         while (cur->nxt && cur->dat->getid() != id) {
-                cur->nxt = insert(std::move(cur->nxt), id, dat);
+                cur->nxt = _insert(std::move(cur->nxt), id, dat);
                 return cur;
         }
 
