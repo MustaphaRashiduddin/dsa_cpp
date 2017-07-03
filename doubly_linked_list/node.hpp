@@ -44,7 +44,7 @@ template <class T> node<T>::node(node&& obj) : dat{nullptr}, nxt{nullptr}
         std::swap(prv, obj.prv);
 }
 
-// move asignment operator
+// move assignment operator
 template <class T> void node<T>::operator=(node&& obj)  
 { 
         std::swap(dat, obj.dat);

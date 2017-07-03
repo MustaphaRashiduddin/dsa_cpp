@@ -17,8 +17,9 @@ int main(int argc, char *argv[])
         l1.push(player(8, "spam", 40));
         l1.push(player(9, "jo", 10));
         l1.insert(9, player(6, "smash", 13));
+        list<player> l2 = l1;
         // cout << *l1.tail->prv->prv->prv->prv;
-        cout << *l1.tail;
+        cout << *l2.tail->prv->prv->prv->prv;
 
         return 0;
 }
