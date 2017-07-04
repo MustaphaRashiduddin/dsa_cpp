@@ -3,7 +3,7 @@
 
 #include "node.hpp"
 
-namespace list_ {
+namespace _list {
         template <class T> std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T& val);
         template <class T> std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node); 
         template <class T> std::ostream& print(std::ostream& out, const node<T> *const cur);
@@ -20,7 +20,7 @@ template <class T> struct list {
         list() : head{nullptr} { }
         void push(T&& val);
         std::unique_ptr<T> pop(); 
-        void insert(int id, T dat) { head = list_::insert(std::move(head), id, dat); };
+        void insert(int id, T dat) { head = _list::insert(std::move(head), id, dat); };
         void insert(T dat); // insert at head 
         std::unique_ptr<T> del(int id);
 
@@ -32,7 +32,7 @@ template <class T> struct list {
         ~list() { }
 
         // overloaded operators
-        friend std::ostream& operator<<(std::ostream& out, list& l) { return list_::print(out, l.head.get()); }
+        friend std::ostream& operator<<(std::ostream& out, list& l) { return _list::print(out, l.head.get()); }
 };
 
 // copy constructor
@@ -71,13 +71,13 @@ template <class T> void list<T>::push(T&& val)
         if (head == nullptr)
                 head = std::unique_ptr<node<T>>{new node<T>{val}};
         else
-                head = list_::push(std::move(head), val);
+                head = _list::push(std::move(head), val);
 }
 
-template <class T> std::unique_ptr<node<T>> list_::push(std::unique_ptr<node<T>> cur, T& val)
+template <class T> std::unique_ptr<node<T>> _list::push(std::unique_ptr<node<T>> cur, T& val)
 {
         if (cur->nxt != nullptr) {
-                cur->nxt = list_::push(std::move(cur->nxt), val);
+                cur->nxt = _list::push(std::move(cur->nxt), val);
                 return cur;
         } else {
                 cur->nxt = std::unique_ptr<node<T>>{new node<T>{val}};
@@ -85,12 +85,12 @@ template <class T> std::unique_ptr<node<T>> list_::push(std::unique_ptr<node<T>>
         }
 }
 
-template <class T> std::ostream& list_::print(std::ostream& out, const node<T> *const cur)
+template <class T> std::ostream& _list::print(std::ostream& out, const node<T> *const cur)
 {
         out << *cur;
         if (cur->nxt != nullptr) {
                 out << " ";
-                list_::print(out, cur->nxt.get());
+                _list::print(out, cur->nxt.get());
         }
         return out;
 }
@@ -102,22 +102,22 @@ template <class T> std::unique_ptr<T> list<T>::pop()
                 head = nullptr;
                 return dat;
         }
-        return list_::pop(head.get()); 
+        return _list::pop(head.get()); 
 }
 
-template <class T> std::unique_ptr<T> list_::pop(node<T> *cur)
+template <class T> std::unique_ptr<T> _list::pop(node<T> *cur)
 {
         if (cur->nxt->nxt != nullptr)
-                return std::move(list_::pop(cur->nxt.get()));
+                return std::move(_list::pop(cur->nxt.get()));
         std::unique_ptr<T> dat = std::move(cur->nxt->dat);
         cur->nxt = nullptr;
         return dat;
 }
 
-template <class T> std::unique_ptr<node<T>> list_::insert(std::unique_ptr<node<T>> cur, int id, T dat)
+template <class T> std::unique_ptr<node<T>> _list::insert(std::unique_ptr<node<T>> cur, int id, T dat)
 {
         while (cur->nxt && cur->dat->id != id) {
-                cur->nxt = list_::insert(std::move(cur->nxt), id, dat);
+                cur->nxt = _list::insert(std::move(cur->nxt), id, dat);
                 return cur;
         }
 
@@ -151,13 +151,13 @@ template <class T> std::unique_ptr<T> list<T>::del(int id)
                 head = std::move(head->nxt);
                 return dat;
         }
-        return list_::del(head.get(), id);
+        return _list::del(head.get(), id);
 }
 
-template <class T> std::unique_ptr<T> list_::del(node<T> *cur, int id)
+template <class T> std::unique_ptr<T> _list::del(node<T> *cur, int id)
 {
         if (id != cur->nxt->dat->id)
-                return list_::del(cur->nxt.get(), id);
+                return _list::del(cur->nxt.get(), id);
         std::unique_ptr<T> dat = std::move(cur->nxt->dat);
         cur->nxt = std::move(cur->nxt->nxt);
         return dat;

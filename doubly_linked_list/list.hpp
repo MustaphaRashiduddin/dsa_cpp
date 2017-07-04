@@ -3,8 +3,7 @@
 
 #include "node.hpp"
 
-namespace list_ {
-        // template <class T> std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node, node<T> *prv_node); 
+namespace _list {
         template <class T> std::ostream& print(std::ostream& out, const node<T> *const cur);
         template <class T> std::unique_ptr<T> del(node<T> *cur, int id);
 }
@@ -32,7 +31,7 @@ template <class T> struct list {
         ~list() { }
 
         // overloaded operators
-        friend std::ostream& operator<<(std::ostream& out, list& l) { return list_::print(out, l.head.get()); }
+        friend std::ostream& operator<<(std::ostream& out, list& l) { return _list::print(out, l.head.get()); }
 };
 
 // copy constructor
@@ -90,12 +89,12 @@ template <class T> void list<T>::push(T&& val)
         }
 }
 
-template <class T> std::ostream& list_::print(std::ostream& out, const node<T> *const cur)
+template <class T> std::ostream& _list::print(std::ostream& out, const node<T> *const cur)
 {
         out << *cur;
         if (cur->nxt != nullptr) {
                 out << " ";
-                list_::print(out, cur->nxt.get());
+                _list::print(out, cur->nxt.get());
         }
         return out;
 }
@@ -153,13 +152,13 @@ template <class T> std::unique_ptr<T> list<T>::del(int id)
                 head = std::move(head->nxt);
                 return dat;
         }
-        return list_::del(head.get(), id);
+        return _list::del(head.get(), id);
 }
 
-template <class T> std::unique_ptr<T> list_::del(node<T> *cur, int id)
+template <class T> std::unique_ptr<T> _list::del(node<T> *cur, int id)
 {
         if (id != cur->nxt->dat->id)
-                return list_::del(cur->nxt.get(), id);
+                return _list::del(cur->nxt.get(), id);
         std::unique_ptr<T> dat = std::move(cur->nxt->dat);
         cur->nxt = std::move(cur->nxt->nxt);
         return dat;
