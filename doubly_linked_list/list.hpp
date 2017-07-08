@@ -163,8 +163,6 @@ template <class T> std::unique_ptr<T> list<T>::del(int id)
         return _list::del(head.get(), id);
 }
 
-#include <iostream>
-using std::cout;
 template <class T> std::unique_ptr<T> _list::del(node<T> *cur, int id)
 {
         if (id != cur->nxt->dat->id)
