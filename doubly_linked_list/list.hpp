@@ -26,7 +26,7 @@ template <class T> struct list {
         // rule of 5
         list(list& obj); // copy constructor
         void operator=(const list& obj); // copy assignment operator
-        list(list&& obj) : head{nullptr} { std::swap(head, obj.head); } // move constructor
+        list(list&& obj);
         void operator=(list&& obj); // move assignment operator
         ~list() { }
 
@@ -62,12 +62,20 @@ template <class T> std::unique_ptr<node<T>> list<T>::_deep_copy(std::unique_ptr<
         return lhs_node;
 }
 
+// move constructor
+template <class T> list<T>::list(list&& obj) : head{nullptr}, tail{nullptr}
+{ 
+        std::swap(head, obj.head); 
+        std::swap(tail, obj.tail);
+}
+
 // move assignment operator
 template <class T> void list<T>::operator=(list&& obj)
 {
         head = nullptr;
+        tail = nullptr;
         std::swap(head, obj.head);
-        obj.head = nullptr;
+        std::swap(tail, obj.tail);
 }
 
 template <class T> void list<T>::push(T&& val)

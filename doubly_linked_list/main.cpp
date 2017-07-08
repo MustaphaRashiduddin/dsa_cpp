@@ -17,9 +17,13 @@ int main(int argc, char *argv[])
         l1.push(player(8, "spam", 40));
         l1.push(player(9, "jo", 10));
         l1.insert(9, player(6, "smash", 13));
-        list<player> l2 = l1;
+        list<player> l2;
+        l2.push(player(1, "bilbo", 103));
         // cout << *l1.tail->prv->prv->prv->prv;
-        cout << *l2.tail->prv->prv->prv->prv;
+        cout << *l1.tail->prv->prv->prv->prv << split;
+        cout << l2 << split;
+        l2 = std::move(l1);
+        cout << *l2.tail->prv->prv;
 
         return 0;
 }
