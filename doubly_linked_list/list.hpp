@@ -16,7 +16,7 @@ template <class T> struct list {
         // methods
         list() : head{nullptr}, tail{nullptr} { }
         void push(T&& val);
-        std::unique_ptr<T> pop(); 
+        std::unique_ptr<T> remove(); 
         void insert(int id, T dat) { head = _insert(std::move(head), id, dat); };
         std::unique_ptr<node<T>> _insert(std::unique_ptr<node<T>> cur, int id, T dat);
         void insert(T dat); // insert at head 
@@ -107,7 +107,7 @@ template <class T> std::ostream& _list::print(std::ostream& out, const node<T> *
         return out;
 }
 
-template <class T> std::unique_ptr<T> list<T>::pop()
+template <class T> std::unique_ptr<T> list<T>::remove()
 {
         std::unique_ptr<T> dat = std::move(tail->dat);
         if (tail->prv) {

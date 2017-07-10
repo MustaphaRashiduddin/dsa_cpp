@@ -7,7 +7,7 @@ namespace _list {
         template <class T> std::unique_ptr<node<T>> push(std::unique_ptr<node<T>> cur, T& val);
         template <class T> std::unique_ptr<node<T>> deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node); 
         template <class T> std::ostream& print(std::ostream& out, const node<T> *const cur);
-        template <class T> std::unique_ptr<T> pop(node<T> *cur);
+        template <class T> std::unique_ptr<T> remove(node<T> *cur);
         template <class T> std::unique_ptr<node<T>> insert(std::unique_ptr<node<T>> cur, int id, T dat);
         template <class T> std::unique_ptr<T> del(node<T> *cur, int id);
 }
@@ -19,7 +19,7 @@ template <class T> struct list {
         // methods
         list() : head{nullptr} { }
         void push(T&& val);
-        std::unique_ptr<T> pop(); 
+        std::unique_ptr<T> remove(); 
         void insert(int id, T dat) { head = _list::insert(std::move(head), id, dat); };
         void insert(T dat); // insert at head 
         std::unique_ptr<T> del(int id);
@@ -95,20 +95,20 @@ template <class T> std::ostream& _list::print(std::ostream& out, const node<T> *
         return out;
 }
 
-template <class T> std::unique_ptr<T> list<T>::pop()
+template <class T> std::unique_ptr<T> list<T>::remove()
 {
         if (!head->nxt) {
                 std::unique_ptr<T> dat = std::move(head->dat);
                 head = nullptr;
                 return dat;
         }
-        return _list::pop(head.get()); 
+        return _list::remove(head.get()); 
 }
 
-template <class T> std::unique_ptr<T> _list::pop(node<T> *cur)
+template <class T> std::unique_ptr<T> _list::remove(node<T> *cur)
 {
         if (cur->nxt->nxt != nullptr)
-                return std::move(_list::pop(cur->nxt.get()));
+                return std::move(_list::remove(cur->nxt.get()));
         std::unique_ptr<T> dat = std::move(cur->nxt->dat);
         cur->nxt = nullptr;
         return dat;
