@@ -40,10 +40,6 @@ void merge_sort(mylist<vector<int>>& lv)
                         *i = merge_sort(*i, *(++i));
                         lv.erase(i);
                 }
-
-                list<vector<int>>::iterator b=lv._list.begin();
-                *b = merge_sort(*b, *lv._one_before);
-                lv.erase(lv._one_before); // one before is never erased until the very end of this else case
         }
 
         if (lv._size != 1)
@@ -60,7 +56,6 @@ vector<int> merge_sort(vector<int>& arr1, vector<int>& arr2)
                         merged.push_back(arr1[i++]);
                 else 
                         merged.push_back(arr2[j++]);
-
         return merged;
 }
 
