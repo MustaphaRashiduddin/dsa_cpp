@@ -15,10 +15,12 @@ void pvec(string&&, vector<int>);
 
 int main (int argc, char **argv)
 {
-        vector<int> v = {108, 15, 50, 4, 8, 42, 23, 16, 32, 40, 0, 42};
+        // vector<int> v = {108, 15, 50, 4, 8, 42, 23, 16, 32, 40, 0, 42};
+        vector<int> v = {8, 3, 1, 7, 0, 10, 2};
         mylist<vector<int>> lv; // list of a vector
         split(lv, v);
-        merge_sort(lv);
+        if (lv._size > 1)
+                merge_sort(lv);
         for (list<vector<int>>::const_iterator i=lv._list.begin(); i!=lv._list.end(); i++)
                 pvec("lv", *i);
         return 0;
