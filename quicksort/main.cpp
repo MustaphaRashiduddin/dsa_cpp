@@ -13,11 +13,8 @@ int main(int argc, char **argv)
         int arr[] = {108, 15, 50, 4, 8, 42, 23, 16};
         int arr_sz = sizeof arr / sizeof *arr;
         parr(arr, arr_sz);
-
         qsort(arr, 0, arr_sz);
-
         parr(arr, arr_sz);
-
         return 0;
 }
 
@@ -33,7 +30,6 @@ void qsort(int arr[] , unsigned l, unsigned r)
                         ++l;
                 }
         }
-
         if (p != -1) qsort(arr, 0, p);
         if (l != r) qsort(arr, l, r);
 }
