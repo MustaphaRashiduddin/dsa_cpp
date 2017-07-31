@@ -30,8 +30,8 @@ void qsort(int arr[] , unsigned l, unsigned r)
                         ++l;
                 }
         }
-        if (p != -1) qsort(arr, 0, p);
-        if (l != r) qsort(arr, l, r);
+        if (p > -1) qsort(arr, 0, p);
+        if (l < r) qsort(arr, l, r);
 }
 
 void parr(int arr[], unsigned sz)
