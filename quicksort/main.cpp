@@ -10,7 +10,8 @@ void parr(int[], unsigned);
 int main(int argc, char **argv)
 {
         // int arr[] = {8, 3, 1, 7, 0, 10, 2};
-        int arr[] = {108, 15, 50, 4, 8, 42, 23, 16};
+        // int arr[] = {108, 15, 50, 4, 8, 42, 23, 16};
+        int arr[] = {9, 7, 5, 11, 12, 2, 14, 3, 10, 6};
         int arr_sz = sizeof arr / sizeof *arr;
         parr(arr, arr_sz);
         qsort(arr, 0, arr_sz);
