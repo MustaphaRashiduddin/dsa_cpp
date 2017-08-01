@@ -19,7 +19,7 @@ int main(int argc, char **argv)
         return 0;
 }
 
-void qsort(int arr[] , unsigned l, unsigned r)
+void qsort(int arr[], unsigned l, unsigned r)
 {
         int p = r-1;
         for (int i=l; i<r; i++) {
