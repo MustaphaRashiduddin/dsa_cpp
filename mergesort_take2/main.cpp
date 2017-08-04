@@ -51,18 +51,15 @@ void merge(int arr[], unsigned l, unsigned m, unsigned r)
         int i = 0;
         int j = 0;
         int k = l;
-        while (1) {
-                if (i < l_sz && L[i] < R[j]) {
+        while (i < l_sz && j < r_sz) {
+                if (L[i] < R[j]) {
                         arr[k] = L[i];
                         ++i;
-                        ++k;
-                } else if (j < r_sz && L[i] >= R[j]) {
+                } else {
                         arr[k] = R[j];
                         ++j;
-                        ++k;
-                } else if (k == r+1 || i == l_sz || j == r_sz) {
-                        break;
-                }
+                } 
+                ++k;
         }
         while (i < l_sz) {
                 arr[k] = L[i];
