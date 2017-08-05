@@ -30,13 +30,6 @@ void mergesort(int arr[], unsigned l, unsigned r)
         }
 }
 
-void parr(int arr[], unsigned l, unsigned r)
-{
-        for (int i=l; i<r; i++)
-                cout << arr[i] << " ";
-        cout << endl;
-}
-
 void merge(int arr[], unsigned l, unsigned m, unsigned r)
 {
         unsigned l_sz = m-l+1;
