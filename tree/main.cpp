@@ -1,5 +1,6 @@
 #include <iostream>
 #include "node.hpp"
+#include "btree.hpp"
 
 using std::unique_ptr;
 using std::cout;
@@ -8,12 +9,29 @@ using std::move;
 
 int main(int argc, char **argv)
 {
-        // node(T dat) : dat{new T(dat)}, r{nullptr}, l{nullptr} { }
-        node<int> root{node<int>{3}};
-        unique_ptr<node<int>> r{new node<int>{5}};
-        root.r = move(r);
-        unique_ptr<node<int>> l{new node<int>{6}};
-        root.l = move(l);
-        cout << root << " " << *root.r << " " << *root.l << endl;
+
+        // works
+        /*
+         * node root{node{3}};
+         * std::unique_ptr<node> new_node{new node{root}};
+         * cout << root << " " << *new_node;
+         */
+
+        btree tree;
+        int x = 4;
+        int y = 8;
+        int z = 12;
+        int z2 = 16;
+        tree.insert(&x);
+        tree.insert(&y);
+        tree.insert(&z);
+        tree.insert(&z2);
+        cout << *tree.root << " " << *tree.root->r << " " << *tree.root->r->r << " " << *tree.root->r->r->r;
+
+        // works
+        /*
+         * unique_ptr<int> dat = std::unique_ptr<int>{new int(3)};
+         * cout << *dat;
+         */
         return 0;
 }

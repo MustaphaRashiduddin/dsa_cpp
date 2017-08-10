@@ -1,0 +1,7 @@
+[
+  {
+    "directory": "/Users/ibnShahid/research/dsa_cpp/tree/build",
+    "command": "c++  -Iprog@exe -I. -I.. -Xclang -fcolor-diagnostics -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -std=c++11 -O0 -g -g -o -Qunused-arguments -MMD -MQ 'prog@exe/main.cpp.o' -MF 'prog@exe/main.cpp.o.d' -o 'prog@exe/main.cpp.o' -c ../main.cpp",
+    "file": "../main.cpp"
+  }
+]

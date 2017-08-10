@@ -1,0 +1,23 @@
+Build started at 2017-08-09T23:21:29.304744
+Python binary: /usr/local/opt/python3/bin/python3.6
+Python system: Darwin
+The Meson build system
+Version: 0.41.2
+Source dir: /Users/ibnShahid/research/dsa_cpp/tree
+Build dir: /Users/ibnShahid/research/dsa_cpp/tree/build
+Build type: native build
+Project name: proj
+Sanity testing cpp compiler: c++
+Is cross compiler: False.
+Sanity check compiler command line: c++ /Users/ibnShahid/research/dsa_cpp/tree/build/meson-private/sanitycheckcpp.cc -o /Users/ibnShahid/research/dsa_cpp/tree/build/meson-private/sanitycheckcpp.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command: /Users/ibnShahid/research/dsa_cpp/tree/build/meson-private/sanitycheckcpp.exe
+Native cpp compiler: c++ (clang 8.1.0)
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Build targets in project: 1

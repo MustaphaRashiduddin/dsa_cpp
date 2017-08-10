@@ -5,7 +5,10 @@
 #include <memory>
 #include <iostream>
 
-template <class T> struct node {
+typedef int T;
+
+// template <class T>
+struct node {
         node(T dat) : dat{new T(dat)}, r{nullptr}, l{nullptr} { }
         std::unique_ptr<T> dat;
         std::unique_ptr<node> r;
@@ -22,22 +25,28 @@ template <class T> struct node {
         friend std::ostream& operator<<(std::ostream& out, const node& p) { return out << *p.dat; }
 };
 
+
 // copy constructor
-template <class T> node<T>::node(const node& obj) : r{nullptr}, l{nullptr}
+// template <class T>
+// node<T>::node(const node& obj) : r{nullptr}, l{nullptr}
+node::node(const node& obj) : r{nullptr}, l{nullptr}
 { 
         dat = std::unique_ptr<T>{new T{*obj.dat}};
+        // r = std::unique_ptr<node>{new node{*obj.r}};
 }
 
 // copy assignment operator
-template <class T> void node<T>::operator=(const node& obj)
+// template <class T>
+// void node<T>::operator=(const node& obj)
+void node::operator=(const node& obj)
 {
         *dat = *obj.dat;
-        r = obj.r;
-        l = obj.l;
 }
 
 // move constructor
-template <class T> node<T>::node(node&& obj) : dat{nullptr}, r{nullptr}, l{nullptr}
+// template <class T>
+// node<T>::node(node&& obj) : dat{nullptr}, r{nullptr}, l{nullptr}
+node::node(node&& obj) : dat{nullptr}, r{nullptr}, l{nullptr}
 { 
         std::swap(dat, obj.dat);
         std::swap(r, obj.r);
@@ -45,7 +54,9 @@ template <class T> node<T>::node(node&& obj) : dat{nullptr}, r{nullptr}, l{nullp
 }
 
 // move asignment operator
-template <class T> void node<T>::operator=(node&& obj)  
+// template <class T>
+// void node<T>::operator=(node&& obj)  
+void node::operator=(node&& obj)  
 { 
         std::swap(dat, obj.dat);
         std::swap(r, obj.r);
