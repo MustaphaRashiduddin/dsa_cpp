@@ -34,16 +34,6 @@ void btree::insert(T* dat)
         }
 }
 
-void btree::print()
-{
-        _print(root.get());
-}
-
-void btree::_print(node *cur)
-{
-        // print nodes
-}
-
 void btree::_insert(T *dat, node *cur)
 {
         if (*dat > *cur->dat.get()) {
@@ -58,5 +48,16 @@ void btree::_insert(T *dat, node *cur)
                         cur->l = std::unique_ptr<node>{new node{*dat}};
         }
 }
+
+void btree::print()
+{
+        _print(root.get());
+}
+
+void btree::_print(node *cur)
+{
+        // print nodes
+}
+
 
 #endif

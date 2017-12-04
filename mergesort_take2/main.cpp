@@ -34,8 +34,10 @@ void merge(int arr[], unsigned l, unsigned m, unsigned r)
 {
         unsigned l_sz = m-l+1;
         unsigned r_sz = r-m;
+
         int L[l_sz];
         int R[r_sz];
+
         for (int i=l; i<=m; i++)
                 L[i-l] = arr[i];
         for (int i=m+1; i<=r; i++)

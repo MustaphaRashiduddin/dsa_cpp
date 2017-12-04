@@ -8,7 +8,8 @@ namespace _list {
         template <class T> std::unique_ptr<T> del(node<T> *cur, int id);
 }
 
-template <class T> struct list {
+template <class T> 
+struct list {
         // data members
         std::unique_ptr<node<T>> head;
         node<T> *tail;
@@ -35,7 +36,8 @@ template <class T> struct list {
 };
 
 // copy constructor
-template <class T> list<T>::list(list& obj)
+template <class T> 
+list<T>::list(list& obj)
 {
         head = std::unique_ptr<node<T>>{new node<T>{*obj.head}};
         if (obj.head)
@@ -43,15 +45,16 @@ template <class T> list<T>::list(list& obj)
 }
 
 // copy assignment operator
-template <class T> void list<T>::operator=(const list& obj)
+template <class T> 
+void list<T>::operator=(const list& obj)
 {
-        // head = nullptr;
         head = std::unique_ptr<node<T>>{new node<T>{*obj.head}};
         if (obj.head)
                 head = _deep_copy(std::move(head->nxt), obj.head.nxt.get(), head.get());
 }
 
-template <class T> std::unique_ptr<node<T>> list<T>::_deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node, node<T> *prv_node) 
+template <class T> 
+std::unique_ptr<node<T>> list<T>::_deep_copy(std::unique_ptr<node<T>> lhs_node, const node<T> *const rhs_node, node<T> *prv_node) 
 {
         lhs_node = std::unique_ptr<node<T>>{new node<T>{*rhs_node}};
         lhs_node->prv = prv_node;
@@ -63,14 +66,16 @@ template <class T> std::unique_ptr<node<T>> list<T>::_deep_copy(std::unique_ptr<
 }
 
 // move constructor
-template <class T> list<T>::list(list&& obj) : head{nullptr}, tail{nullptr}
+template <class T> 
+list<T>::list(list&& obj) : head{nullptr}, tail{nullptr}
 { 
         std::swap(head, obj.head); 
         std::swap(tail, obj.tail);
 }
 
 // move assignment operator
-template <class T> void list<T>::operator=(list&& obj)
+template <class T> 
+void list<T>::operator=(list&& obj)
 {
         head = nullptr;
         tail = nullptr;
@@ -78,7 +83,8 @@ template <class T> void list<T>::operator=(list&& obj)
         std::swap(tail, obj.tail);
 }
 
-template <class T> void list<T>::push(T&& val)
+template <class T> 
+void list<T>::push(T&& val)
 {
         if (head == nullptr) {
                 head = std::unique_ptr<node<T>>{new node<T>{val}};
@@ -97,7 +103,8 @@ template <class T> void list<T>::push(T&& val)
         }
 }
 
-template <class T> std::ostream& _list::print(std::ostream& out, const node<T> *const cur)
+template <class T> 
+std::ostream& _list::print(std::ostream& out, const node<T> *const cur)
 {
         out << *cur;
         if (cur->nxt != nullptr) {
@@ -107,7 +114,8 @@ template <class T> std::ostream& _list::print(std::ostream& out, const node<T> *
         return out;
 }
 
-template <class T> std::unique_ptr<T> list<T>::remove()
+template <class T> 
+std::unique_ptr<T> list<T>::remove()
 {
         std::unique_ptr<T> dat = std::move(tail->dat);
         if (tail->prv) {
@@ -119,7 +127,8 @@ template <class T> std::unique_ptr<T> list<T>::remove()
         return dat;
 }
 
-template <class T> std::unique_ptr<node<T>> list<T>::_insert(std::unique_ptr<node<T>> cur, int id, T dat)
+template <class T> 
+std::unique_ptr<node<T>> list<T>::_insert(std::unique_ptr<node<T>> cur, int id, T dat)
 {
         while (cur->nxt && cur->dat->id != id) {
                 cur->nxt = _insert(std::move(cur->nxt), id, dat);
@@ -144,7 +153,8 @@ template <class T> std::unique_ptr<node<T>> list<T>::_insert(std::unique_ptr<nod
         return cur;
 }
 
-template <class T> void list<T>::insert(T dat)
+template <class T> 
+void list<T>::insert(T dat)
 {
         std::unique_ptr<node<T>> temp = std::move(head);
         std::unique_ptr<T> mDat{new T{dat}};
@@ -153,7 +163,8 @@ template <class T> void list<T>::insert(T dat)
         head = std::move(mNode);
 }
 
-template <class T> std::unique_ptr<T> list<T>::del(int id)
+template <class T> 
+std::unique_ptr<T> list<T>::del(int id)
 {
         if (head->dat->id == id) {
                 std::unique_ptr<T> dat = std::move(head->dat);
@@ -163,7 +174,8 @@ template <class T> std::unique_ptr<T> list<T>::del(int id)
         return _list::del(head.get(), id);
 }
 
-template <class T> std::unique_ptr<T> _list::del(node<T> *cur, int id)
+template <class T>
+std::unique_ptr<T> _list::del(node<T> *cur, int id)
 {
         if (id != cur->nxt->dat->id)
                 return _list::del(cur->nxt.get(), id);
